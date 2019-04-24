@@ -1,0 +1,53 @@
+---
+
+- name: install Mysql
+  apt: 
+    name: mysql-server
+    update_cache: yes
+  remote_user: root
+  become: true
+
+- name: install python
+  apt: 
+    name: python
+    update_cache: yes
+  remote_user: root
+  become: true
+
+- name: install pip
+  apt: 
+    name: python-pip
+    update_cache: yes
+  remote_user: tduval605@gmail.com
+  become: true 
+ 
+- name: install libmysqlclient-dev
+  apt: 
+    name: libmysqlclient-dev
+  remote_user: tduval605@gmail.com
+  become: true
+
+- name: install mysql-python
+  pip: name=MySQL-python
+
+- name: "config test-config.php"
+  template:
+    src: ./templates/.my.cnf
+    dest: /etc/mysql/my.cnf
+  become: true
+
+- name: create a new user
+  mysql_user:
+    name: devOps
+    password: devOps
+    priv: '*.*:ALL'
+    state: present
+    login_user: root
+    host: '%'
+
+- name: Create a new database with name 'test'
+  mysql_db:
+    name: test
+    state: present
+    login_user: devOps
+    login_password: "devOps"

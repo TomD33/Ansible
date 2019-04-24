@@ -1,0 +1,22 @@
+---
+
+- name: config mysql
+  hosts: bdd
+  role:
+   - roles: '/etc/ansible/roles/sql'
+  
+
+  - name: install ftp
+  hosts: bdd
+  roles: 
+    - role: '/etc/ansible/roles/ftp'
+
+- name:  config Apache PhP
+  hosts: apache
+  roles: 
+    - role: '/etc/ansible/roles/apachePhp'
+
+- name: install wp
+  hosts: apache
+  roles: 
+    - role: '/etc/ansible/roles/wordpress'

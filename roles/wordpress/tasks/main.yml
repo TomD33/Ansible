@@ -1,0 +1,36 @@
+---
+
+- name: "check exist"
+  stat:
+    path: "/var/www/html/wordpress"
+  register: check_wordpress
+
+- name: "download test"
+  unarchive:
+    src: "{{wordpress_source}}"
+    dest: "/var/www/html"
+    remote_src: yes
+  become: true
+  when: check_wordpress.stat.exists == False
+
+- name: "rm index.html"
+  file: 
+    path: "/var/www/html/index.html"
+    state: absent
+  become: true
+
+- name: "check sample db"
+  stat: 
+    path: "/var/www/html/wordpress/test-config-sample.php"
+  register: check_sample
+
+- name: "rename sample"
+  command: mv /var/www/html/wordpress/test-config-sample.php /var/www/html/wordpress/test-config.php
+  when: check_sample.stat.exists == True
+  become: true
+
+- name: "config test-config.php"
+  template:
+    src: ./templates/test
+    dest: /var/www/html/wordpress/test-config.php
+  become: true
