@@ -18,13 +18,13 @@
   apt: 
     name: python-pip
     update_cache: yes
-  remote_user: tduval605@gmail.com
+  remote_user: root
   become: true 
  
 - name: install libmysqlclient-dev
   apt: 
     name: libmysqlclient-dev
-  remote_user: tduval605@gmail.com
+  remote_user: root
   become: true
 
 - name: install mysql-python
