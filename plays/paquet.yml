@@ -16,7 +16,7 @@
   roles: 
     - role: '/etc/ansible/roles/apachePhp'
 
-- name: install wp
+- name: install test
   hosts: apache
   roles: 
     - role: '/etc/ansible/roles/wordpress'
